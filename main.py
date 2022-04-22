@@ -95,6 +95,10 @@ def main():
         history['test_avg_loss'].append(test_avg_loss)
         history['test_accuracy'].append(test_accuracy)
 
+    # Save Model
+    model_filename = "model_{}_epoch{}".format(opt.model_name, epoch)
+    torch.save(model.state_dict(), "{}/{}".format(results_path, model_filename))
+
     # Show/Save Training/Testing Process
     loss_filename = "{}_loss_over_epoch_{}".format(opt.model_name, epochs)
     plot_loss(history, show=False, save=True, path='{}/{}'.format(results_path, loss_filename))
