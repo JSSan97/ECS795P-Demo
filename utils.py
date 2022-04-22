@@ -1,15 +1,24 @@
 import matplotlib.pyplot as plt
+import numpy as np
 from torchvision.utils import make_grid
 from models import VGG16, VGG13
 from datasets import MNISTDigits, CIFAR10, FashionMNIST
 
-def view_images(data_loader):
-    for images, _ in data_loader:
-        print('images.shape:', images.shape)
-        plt.figure(figsize=(16,8))
-        plt.axis('off')
-        plt.imshow(make_grid(images, nrow=16).permute((1, 2, 0)))
-        break
+def load_image_from_tensor(image, save_path=None, title=None):
+    image = image / 2 + 0.5
+    np_image = image.numpy()
+    plt.axis('off')
+
+    if title:
+        plt.title(title)
+
+    plt.imshow(np.transpose(np_image, (1, 2, 0)))
+
+    if save_path:
+        plt.savefig(save_path)
+
+    plt.close()
+
 
 def get_model(model_name, device):
     models = {

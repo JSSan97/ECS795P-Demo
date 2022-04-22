@@ -5,10 +5,17 @@ import os
 import ssl
 
 class Dataset():
-    def __init__(self, train_loader, test_loader, results_model_dir):
+    def __init__(self, train_loader, test_loader, test_dataset, results_model_dir):
         self.train_loader = train_loader
+        self.test_dataset = test_dataset
         self.test_loader = test_loader
         self.results_model_dir = results_model_dir
+
+    def get_class_to_id_mapping(self):
+        return self.test_dataset.class_to_idx
+
+    def get_id_to_class_mapping(self):
+        return dict((v, k) for k, v in self.test_dataset.class_to_idx.items())
 
     def get_train_loader(self):
         return self.train_loader
@@ -40,7 +47,7 @@ class MNISTDigits(Dataset):
         test_data = datasets.MNIST(root=self.test_dir, train=False, transform=transform, download=True)
         self.test_loader = DataLoader(dataset=test_data, batch_size=batch_size, shuffle=True)
 
-        super().__init__(self.train_loader, self.test_loader, self.results_model_dir)
+        super().__init__(self.train_loader, self.test_loader, test_data, self.results_model_dir)
 
 class CIFAR10(Dataset):
     def __init__(self, batch_size, model_name):
@@ -66,7 +73,7 @@ class CIFAR10(Dataset):
         test_data = datasets.CIFAR10(root=self.test_dir, train=False, transform=transform, download=True)
         self.test_loader = DataLoader(dataset=test_data, batch_size=batch_size, shuffle=True)
 
-        super().__init__(self.train_loader, self.test_loader, self.results_model_dir)
+        super().__init__(self.train_loader, self.test_loader, test_data, self.results_model_dir)
 
 
 class FashionMNIST(Dataset):
@@ -90,7 +97,7 @@ class FashionMNIST(Dataset):
         test_data = datasets.FashionMNIST(root=self.test_dir, train=False, transform=transform, download=True)
         self.test_loader = DataLoader(dataset=test_data, batch_size=batch_size, shuffle=True)
 
-        super().__init__(self.train_loader, self.test_loader, self.results_model_dir)
+        super().__init__(self.train_loader, self.test_loader, test_data, self.results_model_dir)
 
 def get_input_transform(model_name):
     if model_name == "VGG13" or model_name == "VGG16":
