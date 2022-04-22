@@ -102,13 +102,3 @@ class VGG13(nn.Module):
         x = F.dropout(x, 0.5)
         x = self.fc3(x)
         return x
-
-class GoogLeNet(nn.Module):
-    def __init__(self):
-        self.conv1 = conv_block(
-            in_channels=3,
-            out_channels=64,
-            kernel_size=(7, 7),
-            stride=(2, 2),
-            padding=(3, 3),
-        )

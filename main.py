@@ -55,7 +55,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--batch_size', type=int, default=64, help='Batch Size')
     parser.add_argument('--model_name', type=str, default='VGG13', choices=['VGG13', 'VGG16'], help='Name of architecture')
-    parser.add_argument('--dataset', type=str, default='MNIST', choices=['MNIST, CIFAR10', 'MNISTFashion'], help='Training/Test Dataset')
+    parser.add_argument('--dataset', type=str, default='MNIST', choices=['MNIST', 'CIFAR10', 'MNISTFashion'], help='Training/Test Dataset')
     parser.add_argument('--epochs', type=int, default=50, help='Training Epochs')
     opt = parser.parse_args()
 
@@ -87,7 +87,7 @@ def main():
 
     # Training
     for epoch in range(epochs):
-        print("---- Epoch {} ----".format(epoch))
+        print("---- Epoch {} ----".format(epoch + 1))
         train_avg_loss, train_accuracy = train_loop(train_loader, model, criterion, optimizer, device)
         history['train_avg_loss'].append(train_avg_loss)
         history['train_accuracy'].append(train_accuracy)
@@ -96,7 +96,7 @@ def main():
         history['test_accuracy'].append(test_accuracy)
 
     # Save Model
-    model_filename = "model_{}_epoch{}".format(opt.model_name, epoch)
+    model_filename = "model_{}_epoch{}".format(opt.model_name, epoch + 1)
     torch.save(model.state_dict(), "{}/{}".format(results_path, model_filename))
 
     # Show/Save Training/Testing Process
