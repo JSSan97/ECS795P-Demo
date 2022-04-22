@@ -103,7 +103,7 @@ def main():
     loss_filename = "{}_loss_over_epoch_{}".format(opt.model_name, epochs)
     plot_loss(history, show=False, save=True, path='{}/{}'.format(results_path, loss_filename))
 
-    accuracy_filename = "{}_test_accuracy_over_epoch_{}".format(opt.model_name, epochs)
+    accuracy_filename = "{}_accuracy_over_epoch_{}".format(opt.model_name, epochs)
     plot_accuracy(history, show=False, save=True, path='{}/{}'.format(results_path, accuracy_filename))
 
 if __name__ == '__main__':
