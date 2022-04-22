@@ -37,7 +37,7 @@ def test_loop(dataloader, model, criterion, device):
     test_loss, correct = 0, 0
 
     with torch.no_grad():
-        for batch_idx, (data, targets) in dataloader:
+        for data, targets in dataloader:
             data = data.to(device=device)
             targets = targets.to(device=device)
 
