@@ -2,7 +2,53 @@ import argparse
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from utils import get_model, get_dataset, show_train_loss, show_train_accuracy
+from utils import get_model, get_dataset, plot_loss, plot_accuracy
+
+def train_loop(dataloader, model, criterion, optimizer, device):
+    size = len(dataloader.dataset)
+    loss_ep = 0
+    correct = 0
+
+    for batch, (data, targets) in enumerate(dataloader):
+        data = data.to(device=device)
+        targets = targets.to(device=device)
+
+        predictions = model(data)
+        loss = criterion(predictions, targets)
+
+        ## Backpropagation
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+        loss_ep += loss.item()
+
+        # Add correct
+        correct += (predictions.argmax(1) == targets).type(torch.float).sum().item()
+
+    avg_loss = loss_ep / len(dataloader)
+    accuracy = (correct / size) * 100
+
+    print("Train Accuracy: {:>0.1f}%, Avg Loss: {:.3f}".format(accuracy, avg_loss))
+    return avg_loss, accuracy
+
+def test_loop(dataloader, model, criterion, device):
+    size = len(dataloader.dataset)
+    num_batches = len(dataloader)
+    test_loss, correct = 0, 0
+
+    with torch.no_grad():
+        for batch_idx, (data, targets) in dataloader:
+            data = data.to(device=device)
+            targets = targets.to(device=device)
+
+            predictions = model(data)
+            test_loss += criterion(predictions, targets).item()
+            correct += (predictions.argmax(1) == targets).type(torch.float).sum().item()
+
+    avg_loss = (test_loss / num_batches)
+    accuracy = (correct / size) * 100
+    print("Test Accuracy: {:>0.1f}%, Avg Loss: {:.3f}".format(accuracy, avg_loss))
+    return avg_loss, accuracy
 
 def main():
     # Arguments
@@ -10,7 +56,7 @@ def main():
     parser.add_argument('--batch_size', type=int, default=64, help='Batch Size')
     parser.add_argument('--model_name', type=str, default='VGG13', choices=['VGG13', 'VGG16'], help='Name of architecture')
     parser.add_argument('--dataset', type=str, default='MNIST', choices=['MNIST, CIFAR10', 'MNISTFashion'], help='Training/Test Dataset')
-    parser.add_argument('--epochs', type=int, default=100, help='Training Epochs')
+    parser.add_argument('--epochs', type=int, default=50, help='Training Epochs')
     opt = parser.parse_args()
 
     # training parameters
@@ -34,49 +80,27 @@ def main():
 
     # Keep record of loss, accuracy
     history = {}
-    history['loss_per_epoch'] = []
-    history['accuracy_per_epoch'] = []
+    history['train_avg_loss'] = []
+    history['train_accuracy'] = []
+    history['test_avg_loss'] = []
+    history['test_accuracy'] = []
 
     # Training
     for epoch in range(epochs):
-        loss_ep = 0
-
-        for batch_idx, (data, targets) in enumerate(train_loader):
-            data = data.to(device=device)
-            targets = targets.to(device=device)
-            ## Forward Pass
-            optimizer.zero_grad()
-            scores = model(data)
-            loss = criterion(scores, targets)
-            loss.backward()
-            optimizer.step()
-            loss_ep += loss.item()
-
-        loss_for_epoch = loss_ep / len(train_loader)
-        history['loss_per_epoch'].append(loss_for_epoch)
-        print("Loss in epoch {} - {}".format(epoch, loss_for_epoch))
-        with torch.no_grad():
-            num_correct = 0
-            num_samples = 0
-            for batch_idx, (data, targets) in enumerate(test_loader):
-                data = data.to(device=device)
-                targets = targets.to(device=device)
-                ## Forward Pass
-                scores = model(data)
-                _, predictions = scores.max(1)
-                num_correct += (predictions == targets).sum()
-                num_samples += predictions.size(0)
-
-            accuracy_for_epoch = float(num_correct / float(num_samples) * 100)
-            history['accuracy_per_epoch'].append(accuracy_for_epoch)
-            print("num_current: {} out of {}. Accuracy {:.2f}%".format(num_correct, num_samples, accuracy_for_epoch))
+        print("---- Epoch {} ----".format(epoch))
+        train_avg_loss, train_accuracy = train_loop(train_loader, model, criterion, optimizer, device)
+        history['train_avg_loss'].append(train_avg_loss)
+        history['train_accuracy'].append(train_accuracy)
+        test_avg_loss, test_accuracy = test_loop(test_loader, model, criterion, device)
+        history['test_avg_loss'].append(test_avg_loss)
+        history['test_accuracy'].append(test_accuracy)
 
     # Show/Save Training/Testing Process
     loss_filename = "{}_loss_over_epoch_{}".format(opt.model_name, epochs)
-    show_train_loss(history, show=False, save=True, path='{}/{}'.format(results_path, loss_filename))
+    plot_loss(history, show=False, save=True, path='{}/{}'.format(results_path, loss_filename))
 
     accuracy_filename = "{}_test_accuracy_over_epoch_{}".format(opt.model_name, epochs)
-    show_train_accuracy(history, show=False, save=True, path='{}/{}'.format(results_path, accuracy_filename))
+    plot_accuracy(history, show=False, save=True, path='{}/{}'.format(results_path, accuracy_filename))
 
 if __name__ == '__main__':
     main()

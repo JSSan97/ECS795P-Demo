@@ -28,15 +28,18 @@ def get_dataset(dataset_name, model_name, batch_size):
 
     return datasets.get(dataset_name)
 
-def show_train_loss(history, show=False, save=False, path='train_loss.png'):
-    x = range(len(history['loss_per_epoch']))
-    y = history['loss_per_epoch']
-    plt.plot(x, y, label='Training Loss')
+def plot_loss(history, show=False, save=False, path='train_loss.png'):
+    x = range(len(history['train_avg_loss']))
+    plt.plot(x, history['train_avg_loss'], label='Training Loss')
+    plt.plot(x, history['test_avg_loss'], label='Test Loss')
+
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
+    plt.title('Loss of Test and Training Sets Over Epoch')
     plt.legend(loc=4)
     plt.grid(True)
     plt.tight_layout()
+
     if save:
         plt.savefig(path)
     if show:
@@ -44,12 +47,14 @@ def show_train_loss(history, show=False, save=False, path='train_loss.png'):
     else:
         plt.close()
 
-def show_train_accuracy(history, show=False, save=False, path='train_accuracy.png'):
-    x = range(len(history['accuracy_per_epoch']))
-    y = history['accuracy_per_epoch']
-    plt.plot(x, y, label='Accuracy per Epoch')
+def plot_accuracy(history, show=False, save=False, path='train_accuracy.png'):
+    x = range(len(history['train_avg_loss']))
+
+    plt.plot(x, history['train_accuracy'], label='Training Accuracy')
+    plt.plot(x, history['test_accuracy'], label='Test Accuracy')
     plt.xlabel('Epoch')
     plt.ylabel('Accuracy')
+    plt.title('Accuracy of Test and Training Sets Over Epoch')
     plt.legend(loc=4)
     plt.grid(True)
     plt.tight_layout()
