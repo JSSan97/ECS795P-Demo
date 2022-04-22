@@ -32,7 +32,7 @@ def get_dataset(dataset_name, model_name, batch_size):
     datasets = {
         "MNIST": MNISTDigits(batch_size, model_name),
         "CIFAR10": CIFAR10(batch_size, model_name),
-        "ImageNet": FashionMNIST(batch_size, model_name),
+        "MNISTFashion": FashionMNIST(batch_size, model_name),
     }
 
     return datasets.get(dataset_name)
