@@ -2,6 +2,7 @@ import argparse
 import torch
 import torch.nn as nn
 import torch.optim as optim
+import time
 from utils import get_model, get_dataset, plot_loss, plot_accuracy
 
 def train_loop(dataloader, model, criterion, optimizer, device):
@@ -86,6 +87,7 @@ def main():
     history['test_accuracy'] = []
 
     # Training
+    start_time = time.time()
     for epoch in range(epochs):
         print("---- Epoch {} ----".format(epoch + 1))
         train_avg_loss, train_accuracy = train_loop(train_loader, model, criterion, optimizer, device)
@@ -94,6 +96,10 @@ def main():
         test_avg_loss, test_accuracy = test_loop(test_loader, model, criterion, device)
         history['test_avg_loss'].append(test_avg_loss)
         history['test_accuracy'].append(test_accuracy)
+
+    end_time = time.time()
+    total_train_time = end_time - start_time
+    print("Total Training Time: {}".format(total_train_time))
 
     # Save Model
     model_filename = "model_{}_epoch{}.pth".format(opt.model_name, epoch + 1)
