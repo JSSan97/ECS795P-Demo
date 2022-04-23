@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from torchvision.utils import make_grid
 from models import VGG16, VGG13
 from datasets import MNISTDigits, CIFAR10, FashionMNIST
 
