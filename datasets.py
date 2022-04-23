@@ -64,7 +64,7 @@ class CIFAR10(Dataset):
 
         transform = get_input_transform(model_name)
 
-        # SSL error from downloading CIFAR10, need to have this line
+        # SSL error from downloading CIFAR10 dataset, need to have this line
         ssl._create_default_https_context = ssl._create_unverified_context
 
         train_data = datasets.CIFAR10(root=self.train_dir, train=True, transform=transform, download=True)

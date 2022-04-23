@@ -96,7 +96,7 @@ def main():
         history['test_accuracy'].append(test_accuracy)
 
     # Save Model
-    model_filename = "model_{}_epoch{}".format(opt.model_name, epoch + 1)
+    model_filename = "model_{}_epoch{}.pth".format(opt.model_name, epoch + 1)
     torch.save(model.state_dict(), "{}/{}".format(results_path, model_filename))
 
     # Show/Save Training/Testing Process

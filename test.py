@@ -1,6 +1,7 @@
 import argparse
 import torch
 import torchvision
+import os
 from utils import get_model, get_dataset, load_image_from_tensor
 
 
@@ -8,9 +9,9 @@ def test_model():
     parser = argparse.ArgumentParser()
     parser.add_argument('--main_path', )
     parser.add_argument('--batch_size', type=int, default=8, help='Batch Size')
-    parser.add_argument('--dataset', type=str, default='MNIST', choices=['MNIST', 'CIFAR10', 'MNISTFashion'], help='Training/Test Dataset')
+    parser.add_argument('--dataset', type=str, default='MNISTFashion', choices=['MNIST', 'CIFAR10', 'MNISTFashion'], help='Training/Test Dataset')
     parser.add_argument('--model_name', type=str, default='VGG13', choices=['VGG13', 'VGG16'], help='Name of architecture')
-    parser.add_argument('--model_path', type=str, default="", help='Full path to the model')
+    parser.add_argument('--model_path', type=str, default='C:/Users/jsan/PycharmProjects/CV_CW3/MNISTFashion_results/VGG13/model_VGG13_epoch50.pth', help='Full path to the model')
     opt = parser.parse_args()
 
     # Get dataset
