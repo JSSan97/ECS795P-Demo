@@ -32,7 +32,7 @@ def test_model():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     # Load model
-    model = get_model(opt.model_name, device)
+    model = get_model(opt.model_name, device, opt.dataset)
     model.load_state_dict(torch.load(opt.model_path))
 
     # Get predictions

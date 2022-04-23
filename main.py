@@ -74,7 +74,7 @@ def main():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     # Get model from model name
-    model = get_model(opt.model_name, device)
+    model = get_model(opt.model_name, device, opt.dataset)
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 

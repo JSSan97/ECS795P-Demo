@@ -2,9 +2,9 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 class VGG16(nn.Module):
-    def __init__(self):
+    def __init__(self, input_channels=3):
         super(VGG16, self).__init__()
-        self.conv1_1 = nn.Conv2d(in_channels=1, out_channels=64, kernel_size=(3,3), padding=1)
+        self.conv1_1 = nn.Conv2d(in_channels=input_channels, out_channels=64, kernel_size=(3,3), padding=1)
         self.conv1_2 = nn.Conv2d(in_channels=64, out_channels=64, kernel_size=(3,3), padding=1)
 
         self.conv2_1 = nn.Conv2d(in_channels=64, out_channels=128, kernel_size=(3,3), padding=1)
@@ -56,9 +56,9 @@ class VGG16(nn.Module):
         return x
 
 class VGG13(nn.Module):
-    def __init__(self):
+    def __init__(self, input_channels=3):
         super(VGG13, self).__init__()
-        self.conv1_1 = nn.Conv2d(in_channels=1, out_channels=64, kernel_size=(3,3), padding=1)
+        self.conv1_1 = nn.Conv2d(in_channels=input_channels, out_channels=64, kernel_size=(3,3), padding=1)
         self.conv1_2 = nn.Conv2d(in_channels=64, out_channels=64, kernel_size=(3,3), padding=1)
 
         self.conv2_1 = nn.Conv2d(in_channels=64, out_channels=128, kernel_size=(3,3), padding=1)

@@ -20,10 +20,14 @@ def load_image_from_tensor(image, save_path=None, title=None):
     plt.close()
 
 
-def get_model(model_name, device):
+def get_model(model_name, device, dataset_name):
+    input_channels = 3
+    if dataset_name == "MNIST" or dataset_name == "MNISTFashion":
+        input_channels = 1
+
     models = {
-        "VGG13": VGG13(),
-        "VGG16": VGG16(),
+        "VGG13": VGG13(input_channels),
+        "VGG16": VGG16(input_channels),
     }
 
     return models.get(model_name).to(device=device)
