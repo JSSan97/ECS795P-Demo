@@ -13,6 +13,7 @@ def load_image_from_tensor(image, save_path=None, title=None):
         plt.title(title)
 
     plt.imshow(np.transpose(np_image, (1, 2, 0)))
+    plt.pause(1)
 
     if save_path:
         plt.savefig(save_path)
