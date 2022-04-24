@@ -5,11 +5,18 @@ import os
 import ssl
 
 class Dataset():
-    def __init__(self, train_loader, test_loader, test_dataset, results_model_dir):
+    def __init__(self, dataset_name, train_loader, test_loader, test_dataset, results_model_dir):
+        self.dataset_name = dataset_name
         self.train_loader = train_loader
         self.test_dataset = test_dataset
         self.test_loader = test_loader
         self.results_model_dir = results_model_dir
+
+    def get_number_of_classes(self):
+        return len(self.test_dataset.class_to_idx)
+
+    def get_dataset_name(self):
+        return self.dataset_name
 
     def get_class_to_id_mapping(self):
         return self.test_dataset.class_to_idx
@@ -39,15 +46,15 @@ class MNISTDigits(Dataset):
         if not os.path.exists(self.results_model_dir):
             os.mkdir(self.results_model_dir)
 
-        transform = get_input_transform(model_name)
+        transform_train, transform_test = get_input_transform(model_name)
 
-        train_data = datasets.MNIST(root=self.train_dir, train=True, transform=transform, download=True)
+        train_data = datasets.MNIST(root=self.train_dir, train=True, transform=transform_train, download=True)
         self.train_loader = DataLoader(dataset=train_data, batch_size=batch_size, shuffle=True)
 
-        test_data = datasets.MNIST(root=self.test_dir, train=False, transform=transform, download=True)
+        test_data = datasets.MNIST(root=self.test_dir, train=False, transform=transform_test, download=True)
         self.test_loader = DataLoader(dataset=test_data, batch_size=batch_size, shuffle=True)
 
-        super().__init__(self.train_loader, self.test_loader, test_data, self.results_model_dir)
+        super().__init__('MNIST', self.train_loader, self.test_loader, test_data, self.results_model_dir)
 
 class CIFAR10(Dataset):
     def __init__(self, batch_size, model_name):
@@ -62,18 +69,18 @@ class CIFAR10(Dataset):
         if not os.path.exists(self.results_model_dir):
             os.mkdir(self.results_model_dir)
 
-        transform = get_input_transform(model_name)
+        transform_train, transform_test = get_input_transform(model_name)
 
         # SSL error from downloading CIFAR10 dataset, need to have this line
         ssl._create_default_https_context = ssl._create_unverified_context
 
-        train_data = datasets.CIFAR10(root=self.train_dir, train=True, transform=transform, download=True)
+        train_data = datasets.CIFAR10(root=self.train_dir, train=True, transform=transform_train, download=True)
         self.train_loader = DataLoader(dataset=train_data, batch_size=batch_size, shuffle=True)
 
-        test_data = datasets.CIFAR10(root=self.test_dir, train=False, transform=transform, download=True)
+        test_data = datasets.CIFAR10(root=self.test_dir, train=False, transform=transform_test, download=True)
         self.test_loader = DataLoader(dataset=test_data, batch_size=batch_size, shuffle=True)
 
-        super().__init__(self.train_loader, self.test_loader, test_data, self.results_model_dir)
+        super().__init__('CIFAR10', self.train_loader, self.test_loader, test_data, self.results_model_dir)
 
 
 class FashionMNIST(Dataset):
@@ -89,20 +96,38 @@ class FashionMNIST(Dataset):
         if not os.path.exists(self.results_model_dir):
             os.mkdir(self.results_model_dir)
 
-        transform = get_input_transform(model_name)
+        transform_train, transform_test = get_input_transform(model_name)
 
-        train_data = datasets.FashionMNIST(root=self.train_dir, train=True, transform=transform, download=True)
+        train_data = datasets.FashionMNIST(root=self.train_dir, train=True, transform=transform_train, download=True)
         self.train_loader = DataLoader(dataset=train_data, batch_size=batch_size, shuffle=True)
 
-        test_data = datasets.FashionMNIST(root=self.test_dir, train=False, transform=transform, download=True)
+        test_data = datasets.FashionMNIST(root=self.test_dir, train=False, transform=transform_test, download=True)
         self.test_loader = DataLoader(dataset=test_data, batch_size=batch_size, shuffle=True)
 
-        super().__init__(self.train_loader, self.test_loader, test_data, self.results_model_dir)
+        super().__init__('MNISTFashion', self.train_loader, self.test_loader, test_data, self.results_model_dir)
 
 def get_input_transform(model_name):
     if model_name == "VGG13" or model_name == "VGG16":
-        transform = transforms.Compose([transforms.Resize((224, 224)),
+        transform_train = transforms.Compose([transforms.Resize((224, 224)),
+                                        transforms.RandomHorizontalFlip(),
+                                        transforms.ToTensor(),
+                                        transforms.Normalize(mean=(0.5,), std=(0.5,))])
+        transform_test = transforms.Compose([transforms.Resize((224, 224)),
                                         transforms.ToTensor(),
                                         transforms.Normalize(mean=(0.5,), std=(0.5,))])
 
-    return transform
+
+    elif model_name == "ResNet50" or model_name == "ResNet101":
+        transform_train = transforms.Compose([
+            transforms.RandomHorizontalFlip(),
+            transforms.RandomCrop(32, padding=4),
+            transforms.ToTensor(),
+            transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+        ])
+
+        transform_test = transforms.Compose([
+            transforms.ToTensor(),
+            transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+        ])
+
+    return transform_train, transform_test

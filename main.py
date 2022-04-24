@@ -1,9 +1,8 @@
 import argparse
 import torch
 import torch.nn as nn
-import torch.optim as optim
 import time
-from utils import get_model, get_dataset, plot_loss, plot_accuracy
+from utils import get_model, get_dataset, plot_loss, plot_accuracy, get_optimizer
 
 def train_loop(dataloader, model, criterion, optimizer, device):
     size = len(dataloader.dataset)
@@ -57,7 +56,7 @@ def main():
     parser.add_argument('--batch_size', type=int, default=64, help='Batch Size')
     parser.add_argument('--dataset', type=str, default='MNIST', choices=['MNIST', 'CIFAR10', 'MNISTFashion'], help='Training/Test Dataset')
     parser.add_argument('--epochs', type=int, default=50, help='Training Epochs')
-    parser.add_argument('--model_name', type=str, default='VGG13', choices=['VGG13', 'VGG16'], help='Name of architecture')
+    parser.add_argument('--model_name', type=str, default='VGG13', choices=['VGG13', 'VGG16', 'ResNet50', 'ResNet101'], help='Name of architecture')
     opt = parser.parse_args()
 
     # training parameters
@@ -77,7 +76,7 @@ def main():
     # Get model from model name
     model = get_model(opt.model_name, device, opt.dataset)
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.Adam(model.parameters(), lr=learning_rate)
+    optimizer = get_optimizer(opt.model_name, learning_rate)
 
     # Keep record of loss, accuracy
     history = {}

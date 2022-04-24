@@ -1,7 +1,11 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from models import VGG16, VGG13
+import torch.optim as optim
+
+from vgg import VGG16, VGG13
+from resnet import ResNet50, ResNet101
 from datasets import MNISTDigits, CIFAR10, FashionMNIST
+
 
 def load_image_from_tensor(image, save_path=None, title=None):
     image = image / 2 + 0.5
@@ -20,17 +24,24 @@ def load_image_from_tensor(image, save_path=None, title=None):
     plt.close()
 
 
-def get_model(model_name, device, dataset_name):
+def get_model(model_name, device, dataset):
     input_channels = 3
-    if dataset_name == "MNIST" or dataset_name == "MNISTFashion":
+    if dataset.get_dataset_name() == "MNIST" or dataset.get_dataset_name() == "MNISTFashion":
         input_channels = 1
 
     models = {
         "VGG13": VGG13(input_channels),
         "VGG16": VGG16(input_channels),
+        "ResNet50": ResNet50(dataset.get_number_of_classes(), input_channels),
+        "ResNet101": ResNet101(dataset.get_number_of_classes(), input_channels),
     }
 
     return models.get(model_name).to(device=device)
+
+def get_optimizer(net, learning_rate):
+    optimizer = optim.Adam(net.parameters(), lr=learning_rate)
+
+    return optimizer
 
 def get_dataset(dataset_name, model_name, batch_size):
     datasets = {
