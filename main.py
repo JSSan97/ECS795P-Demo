@@ -76,7 +76,7 @@ def main():
     # Get model from model name
     model = get_model(opt.model_name, device, dataset)
     criterion = nn.CrossEntropyLoss()
-    optimizer = get_optimizer(opt.model_name, learning_rate)
+    optimizer = get_optimizer(model, learning_rate)
 
     # Keep record of loss, accuracy
     history = {}
