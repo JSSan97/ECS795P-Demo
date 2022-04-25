@@ -130,7 +130,7 @@ def get_input_transform(dataset_name):
     #     ])
 
     normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
-    if dataset_name == 'FashionMNIST' or dataset_name == 'MNIST':
+    if dataset_name == 'MNISTFashion' or dataset_name == 'MNIST':
         normalize = transforms.Normalize(mean=(0.5,), std=(0.5,))
 
     transform_train = transforms.Compose([
