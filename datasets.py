@@ -106,7 +106,7 @@ class FashionMNIST(Dataset):
 
         super().__init__('MNISTFashion', self.train_loader, self.test_loader, test_data, self.results_model_dir)
 
-def get_input_transform(model_name):
+def get_input_transform(dataset_name):
     # if model_name == "VGG13" or model_name == "VGG16" or model_name == 'GoogLeNet':
     #     transform_train = transforms.Compose([transforms.Resize((224, 224)),
     #                                     transforms.RandomHorizontalFlip(),
@@ -129,19 +129,23 @@ def get_input_transform(model_name):
     #         transforms.Normalize(mean=(0.5,), std=(0.5,)),
     #     ])
 
+    normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+    if dataset_name == 'FashionMNIST' or dataset_name == 'MNIST':
+        normalize = transforms.Normalize(mean=(0.5,), std=(0.5,))
+
     transform_train = transforms.Compose([
         transforms.Resize(256),
         transforms.RandomHorizontalFlip(),
         transforms.CenterCrop(224),
         transforms.ToTensor(),
-        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+        normalize,
     ])
 
     transform_test = transforms.Compose([
         transforms.Resize(256),
         transforms.CenterCrop(224),
         transforms.ToTensor(),
-        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+        normalize,
     ])
 
     return transform_train, transform_test
