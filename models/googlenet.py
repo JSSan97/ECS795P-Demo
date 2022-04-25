@@ -2,15 +2,13 @@ import torch
 from torch import nn
 
 class GoogLeNet(nn.Module):
-    def __init__(self, aux_logits=True, num_classes=1000):
+    def __init__(self, num_classes, input_channels=3, aux_logits=True):
         super(GoogLeNet, self).__init__()
         assert aux_logits == True or aux_logits == False
         self.aux_logits = aux_logits
 
-        # Write in_channels, etc, all explicit in self.conv1, rest will write to
-        # make everything as compact as possible, kernel_size=3 instead of (3,3)
         self.conv1 = conv_block(
-            in_channels=3,
+            in_channels=input_channels,
             out_channels=64,
             kernel_size=(7, 7),
             stride=(2, 2),

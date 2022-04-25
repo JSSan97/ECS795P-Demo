@@ -30,11 +30,11 @@ def get_model(model_name, device, dataset):
         input_channels = 1
 
     models = {
-        "VGG13": VGG13(input_channels),
-        "VGG16": VGG16(input_channels),
+        "VGG13": VGG13(dataset.get_number_of_classes(), input_channels),
+        "VGG16": VGG16(dataset.get_number_of_classes(), input_channels),
         "ResNet50": ResNet50(dataset.get_number_of_classes(), input_channels),
         "ResNet101": ResNet101(dataset.get_number_of_classes(), input_channels),
-        'GoogLeNet': GoogLeNet(aux_logits=True, num_classes=dataset.get_number_of_classes()),
+        'GoogLeNet': GoogLeNet(dataset.get_number_of_classes(), input_channels),
     }
 
     return models.get(model_name).to(device=device)

@@ -2,7 +2,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 class VGG16(nn.Module):
-    def __init__(self, input_channels=3):
+    def __init__(self, num_classes, input_channels=3):
         super(VGG16, self).__init__()
         self.conv1_1 = nn.Conv2d(in_channels=input_channels, out_channels=64, kernel_size=(3,3), padding=1)
         self.conv1_2 = nn.Conv2d(in_channels=64, out_channels=64, kernel_size=(3,3), padding=1)
@@ -26,7 +26,7 @@ class VGG16(nn.Module):
 
         self.fc1 = nn.Linear(512*7*7, 4096)
         self.fc2 = nn.Linear(4096, 4096)
-        self.fc3 = nn.Linear(4096, 10)
+        self.fc3 = nn.Linear(4096, num_classes)
 
     def forward(self, x):
         x = F.relu(self.conv1_1(x))
@@ -56,7 +56,7 @@ class VGG16(nn.Module):
         return x
 
 class VGG13(nn.Module):
-    def __init__(self, input_channels=3):
+    def __init__(self, num_classes, input_channels=3):
         super(VGG13, self).__init__()
         self.conv1_1 = nn.Conv2d(in_channels=input_channels, out_channels=64, kernel_size=(3,3), padding=1)
         self.conv1_2 = nn.Conv2d(in_channels=64, out_channels=64, kernel_size=(3,3), padding=1)
@@ -77,7 +77,7 @@ class VGG13(nn.Module):
 
         self.fc1 = nn.Linear(512*7*7, 4096)
         self.fc2 = nn.Linear(4096, 4096)
-        self.fc3 = nn.Linear(4096, 10)
+        self.fc3 = nn.Linear(4096, num_classes)
 
     def forward(self, x):
         x = F.relu(self.conv1_1(x))
