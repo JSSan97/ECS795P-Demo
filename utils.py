@@ -2,8 +2,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import torch.optim as optim
 
-from vgg import VGG16, VGG13
-from resnet import ResNet50, ResNet101
+from models.vgg import VGG16, VGG13
+from models.resnet import ResNet50, ResNet101
 from datasets import MNISTDigits, CIFAR10, FashionMNIST
 
 
