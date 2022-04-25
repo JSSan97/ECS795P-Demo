@@ -57,7 +57,7 @@ def main():
     parser.add_argument('--batch_size', type=int, default=64, help='Batch Size')
     parser.add_argument('--dataset', type=str, default='MNIST', choices=['MNIST', 'CIFAR10', 'MNISTFashion'], help='Training/Test Dataset')
     parser.add_argument('--epochs', type=int, default=50, help='Training Epochs')
-    parser.add_argument('--model_name', type=str, default='VGG13', choices=['VGG13', 'VGG16', 'ResNet50', 'ResNet101'], help='Name of architecture')
+    parser.add_argument('--model_name', type=str, default='VGG13', choices=['VGG13', 'VGG16', 'ResNet50', 'ResNet101', 'GoogLeNet'], help='Name of architecture')
     opt = parser.parse_args()
 
     # training parameters
@@ -101,7 +101,7 @@ def main():
     total_train_time = end_time - start_time
     print("Total Training Time: {}".format(total_train_time))
 
-    # Save training/test
+    # Save training/test history
     history_filename = "training_history_{}.npy".format(epoch + 1)
     np.save('{}/{}'.format(results_path, history_filename), history)
 
