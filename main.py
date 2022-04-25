@@ -102,7 +102,7 @@ def main():
     print("Total Training Time: {}".format(total_train_time))
 
     # Save training/test
-    history_filename = "training_history_{}_{}.npy".format(opt.model_name, epoch + 1)
+    history_filename = "training_history_{}.npy".format(epoch + 1)
     np.save('{}/{}'.format(results_path, history_filename), history)
 
     # Save Model
