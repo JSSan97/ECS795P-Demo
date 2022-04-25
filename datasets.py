@@ -46,7 +46,7 @@ class MNISTDigits(Dataset):
         if not os.path.exists(self.results_model_dir):
             os.mkdir(self.results_model_dir)
 
-        transform_train, transform_test = get_input_transform(model_name)
+        transform_train, transform_test = get_input_transform('MNIST')
 
         train_data = datasets.MNIST(root=self.train_dir, train=True, transform=transform_train, download=True)
         self.train_loader = DataLoader(dataset=train_data, batch_size=batch_size, shuffle=True)
@@ -69,7 +69,7 @@ class CIFAR10(Dataset):
         if not os.path.exists(self.results_model_dir):
             os.mkdir(self.results_model_dir)
 
-        transform_train, transform_test = get_input_transform(model_name)
+        transform_train, transform_test = get_input_transform('CIFAR10')
 
         # SSL error from downloading CIFAR10 dataset, need to have this line
         ssl._create_default_https_context = ssl._create_unverified_context
@@ -96,7 +96,7 @@ class FashionMNIST(Dataset):
         if not os.path.exists(self.results_model_dir):
             os.mkdir(self.results_model_dir)
 
-        transform_train, transform_test = get_input_transform(model_name)
+        transform_train, transform_test = get_input_transform('MNISTFashion')
 
         train_data = datasets.FashionMNIST(root=self.train_dir, train=True, transform=transform_train, download=True)
         self.train_loader = DataLoader(dataset=train_data, batch_size=batch_size, shuffle=True)
