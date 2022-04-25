@@ -126,6 +126,7 @@ def get_input_transform(model_name):
         ])
 
         transform_test = transforms.Compose([transforms.ToTensor(),
-            transforms.Normalize(mean=(0.5,), std=(0.5,))])
+            transforms.Normalize(mean=(0.5,), std=(0.5,)),
+        ])
 
     return transform_train, transform_test
