@@ -134,16 +134,14 @@ def get_input_transform(dataset_name):
         normalize = transforms.Normalize(mean=(0.5,), std=(0.5,))
 
     transform_train = transforms.Compose([
-        transforms.Resize(256),
+        transforms.Resize((224, 224)),
         transforms.RandomHorizontalFlip(),
-        transforms.CenterCrop(224),
         transforms.ToTensor(),
         normalize,
     ])
 
     transform_test = transforms.Compose([
-        transforms.Resize(256),
-        transforms.CenterCrop(224),
+        transforms.Resize((224, 224)),
         transforms.ToTensor(),
         normalize,
     ])
