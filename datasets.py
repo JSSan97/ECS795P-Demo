@@ -107,7 +107,7 @@ class FashionMNIST(Dataset):
         super().__init__('MNISTFashion', self.train_loader, self.test_loader, test_data, self.results_model_dir)
 
 def get_input_transform(model_name):
-    if model_name == "VGG13" or model_name == "VGG16":
+    if model_name == "VGG13" or model_name == "VGG16" or model_name == 'GoogLeNet':
         transform_train = transforms.Compose([transforms.Resize((224, 224)),
                                         transforms.RandomHorizontalFlip(),
                                         transforms.ToTensor(),
