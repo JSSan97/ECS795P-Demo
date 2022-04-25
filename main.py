@@ -85,6 +85,7 @@ def main():
     history['train_accuracy'] = []
     history['test_avg_loss'] = []
     history['test_accuracy'] = []
+    history['time'] = []
 
     # Training
     start_time = time.time()
@@ -96,6 +97,9 @@ def main():
         test_avg_loss, test_accuracy = test_loop(test_loader, model, criterion, device)
         history['test_avg_loss'].append(test_avg_loss)
         history['test_accuracy'].append(test_accuracy)
+        current_time = time.time() - start_time
+        history['time'].append(current_time)
+        print("Current Training Time: {}".format(current_time))
 
     end_time = time.time()
     total_train_time = end_time - start_time
