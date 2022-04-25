@@ -4,6 +4,7 @@ import torch.optim as optim
 from models.vgg import VGG16, VGG13
 from models.resnet import ResNet50, ResNet101
 from models.googlenet import GoogLeNet
+import torch
 from datasets import MNISTDigits, CIFAR10, FashionMNIST
 
 
@@ -29,12 +30,20 @@ def get_model(model_name, device, dataset):
     if dataset.get_dataset_name() == "MNIST" or dataset.get_dataset_name() == "MNISTFashion":
         input_channels = 1
 
+    # models = {
+    #     "VGG13": VGG13(dataset.get_number_of_classes(), input_channels),
+    #     "VGG16": VGG16(dataset.get_number_of_classes(), input_channels),
+    #     "ResNet50": ResNet50(dataset.get_number_of_classes(), input_channels),
+    #     "ResNet101": ResNet101(dataset.get_number_of_classes(), input_channels),
+    #     'GoogLeNet': GoogLeNet(dataset.get_number_of_classes(), input_channels),
+    # }
+
     models = {
-        "VGG13": VGG13(dataset.get_number_of_classes(), input_channels),
-        "VGG16": VGG16(dataset.get_number_of_classes(), input_channels),
-        "ResNet50": ResNet50(dataset.get_number_of_classes(), input_channels),
-        "ResNet101": ResNet101(dataset.get_number_of_classes(), input_channels),
-        'GoogLeNet': GoogLeNet(dataset.get_number_of_classes(), input_channels),
+        "VGG13": torch.hub.load('pytorch/vision:v0.10.0', 'vgg13', pretrained=False),
+        "VGG16": torch.hub.load('pytorch/vision:v0.10.0', 'vgg16', pretrained=False),
+        "ResNet50": torch.hub.load('pytorch/vision:v0.10.0', 'resnet50', pretrained=False),
+        "ResNet101": torch.hub.load('pytorch/vision:v0.10.0', 'resnet101', pretrained=False),
+        "GoogLeNet": torch.hub.load('pytorch/vision:v0.10.0', 'googlenet', pretrained=False),
     }
 
     return models.get(model_name).to(device=device)

@@ -107,26 +107,41 @@ class FashionMNIST(Dataset):
         super().__init__('MNISTFashion', self.train_loader, self.test_loader, test_data, self.results_model_dir)
 
 def get_input_transform(model_name):
-    if model_name == "VGG13" or model_name == "VGG16" or model_name == 'GoogLeNet':
-        transform_train = transforms.Compose([transforms.Resize((224, 224)),
-                                        transforms.RandomHorizontalFlip(),
-                                        transforms.ToTensor(),
-                                        transforms.Normalize(mean=(0.5,), std=(0.5,))])
-        transform_test = transforms.Compose([transforms.Resize((224, 224)),
-                                        transforms.ToTensor(),
-                                        transforms.Normalize(mean=(0.5,), std=(0.5,))])
+    # if model_name == "VGG13" or model_name == "VGG16" or model_name == 'GoogLeNet':
+    #     transform_train = transforms.Compose([transforms.Resize((224, 224)),
+    #                                     transforms.RandomHorizontalFlip(),
+    #                                     transforms.ToTensor(),
+    #                                     transforms.Normalize(mean=(0.5,), std=(0.5,))])
+    #     transform_test = transforms.Compose([transforms.Resize((224, 224)),
+    #                                     transforms.ToTensor(),
+    #                                     transforms.Normalize(mean=(0.5,), std=(0.5,))])
+    #
+    #
+    # elif model_name == "ResNet50" or model_name == "ResNet101":
+    #     transform_train = transforms.Compose([
+    #         transforms.RandomHorizontalFlip(),
+    #         transforms.RandomCrop(32, padding=4),
+    #         transforms.ToTensor(),
+    #         transforms.Normalize(mean=(0.5,), std=(0.5,)),
+    #     ])
+    #
+    #     transform_test = transforms.Compose([transforms.ToTensor(),
+    #         transforms.Normalize(mean=(0.5,), std=(0.5,)),
+    #     ])
 
+    transform_train = transforms.Compose([
+        transforms.Resize(256),
+        transforms.RandomHorizontalFlip(),
+        transforms.CenterCrop(224),
+        transforms.ToTensor(),
+        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+    ])
 
-    elif model_name == "ResNet50" or model_name == "ResNet101":
-        transform_train = transforms.Compose([
-            transforms.RandomHorizontalFlip(),
-            transforms.RandomCrop(32, padding=4),
-            transforms.ToTensor(),
-            transforms.Normalize(mean=(0.5,), std=(0.5,)),
-        ])
-
-        transform_test = transforms.Compose([transforms.ToTensor(),
-            transforms.Normalize(mean=(0.5,), std=(0.5,)),
-        ])
+    transform_test = transforms.Compose([
+        transforms.Resize(256),
+        transforms.CenterCrop(224),
+        transforms.ToTensor(),
+        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+    ])
 
     return transform_train, transform_test
