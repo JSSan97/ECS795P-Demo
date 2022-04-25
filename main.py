@@ -2,6 +2,7 @@ import argparse
 import torch
 import torch.nn as nn
 import time
+import numpy as np
 from utils import get_model, get_dataset, plot_loss, plot_accuracy, get_optimizer
 
 def train_loop(dataloader, model, criterion, optimizer, device):
@@ -99,6 +100,10 @@ def main():
     end_time = time.time()
     total_train_time = end_time - start_time
     print("Total Training Time: {}".format(total_train_time))
+
+    # Save training/test
+    history_filename = "training_history_{}_{}.npy".format(opt.model_name, epoch + 1)
+    np.save('{}/{}'.format(results_path, history_filename), history)
 
     # Save Model
     model_filename = "model_{}_epoch{}.pth".format(opt.model_name, epoch + 1)
