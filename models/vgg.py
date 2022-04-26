@@ -1,3 +1,5 @@
+## Based of and modified from: https://github.com/Ti-Oluwanimi/Neural-Network-Classification-Algorithms/blob/main/VGG16.ipynb
+
 import torch.nn as nn
 import torch.nn.functional as F
 
