@@ -273,6 +273,7 @@ class ResidualAttentionNetwork(nn.Module):
         x = self.conv1(x)
         x = self.maxpool1(x)
         x = self.Resblock1(x)
+        print(x.shape)
         x = self.attention_module1(x)
         x = self.attention_module2(x)
         x = self.Resblock2(x)
