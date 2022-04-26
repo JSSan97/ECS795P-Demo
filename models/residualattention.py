@@ -121,7 +121,7 @@ class AttentionModule_stage1(nn.Module):
 
         out_interp3 = nn.functional.interpolate(out_softmask3, size=self.size3, mode= 'bilinear', align_corners=True) #(6,6)->(12,12)
         print(out_interp3.shape)
-        print(out_interp3.skip_connection2)
+        print(skip_connection2.shape)
         out = out_interp3 + skip_connection2
         out_softmask4 = self.Resblock5(out)
 
