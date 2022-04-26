@@ -63,12 +63,12 @@ class AttentionModule_stage1(nn.Module):
         self.size3 = size3
         self.Resblock1 = ResUnit(inplanes, outplanes, use_se=use_se) #first residual block
 
-        self.trunkbranch = nn.Sequential(ResUnit(inplanes, outplanes, se_se=use_se),
-                                         ResUnit(inplanes, outplanes, se_se=use_se))
+        self.trunkbranch = nn.Sequential(ResUnit(inplanes, outplanes, use_se=use_se),
+                                         ResUnit(inplanes, outplanes, use_se=use_se))
 
         self.maxpool1 = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
-        self.Resblock2 = ResUnit(inplanes, outplanes, se_se=use_se)
-        self.skip1 = ResUnit(inplanes, outplanes, se_se=use_se)
+        self.Resblock2 = ResUnit(inplanes, outplanes, use_se=use_se)
+        self.skip1 = ResUnit(inplanes, outplanes, use_se=use_se)
 
         self.maxpool2 = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
         self.Resblock3 = ResUnit(inplanes, outplanes, use_se=use_se)
