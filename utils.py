@@ -3,9 +3,8 @@ import numpy as np
 import torch.optim as optim
 
 from models.residualattention import ResidualAttentionNetwork
-from models.vgg import VGG16, VGG13
-from models.resnet import ResNet50, ResNet101
-from models.squeeze_excitation import ResNet50SE, ResNet101SE
+from models.vgg import VGG16
+from models.resnet import ResNet101, ResNet101SE
 from datasets import MNISTDigits, CIFAR10, FashionMNIST
 
 
@@ -32,11 +31,11 @@ def get_model(model_name, device, dataset):
         input_channels = 1
 
     models = {
-        "VGG13": VGG13(dataset.get_number_of_classes(), input_channels),
         "VGG16": VGG16(dataset.get_number_of_classes(), input_channels),
-        "ResNet50": ResNet50(dataset.get_number_of_classes(), input_channels),
         "ResNet101": ResNet101(dataset.get_number_of_classes(), input_channels),
+        "ResNet101SE": ResNet101SE(dataset.get_number_of_classes(), input_channels),
         'ResidualAttention': ResidualAttentionNetwork(dataset.get_number_of_classes(), input_channels),
+        'ResidualAttentionSE': ResidualAttentionNetwork(dataset.get_number_of_classes(), input_channels, use_se=True),
     }
 
     return models.get(model_name).to(device=device)

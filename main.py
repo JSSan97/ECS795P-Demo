@@ -57,7 +57,7 @@ def main():
     parser.add_argument('--batch_size', type=int, default=64, help='Batch Size')
     parser.add_argument('--dataset', type=str, default='MNIST', choices=['MNIST', 'CIFAR10', 'MNISTFashion'], help='Training/Test Dataset')
     parser.add_argument('--epochs', type=int, default=50, help='Training Epochs')
-    parser.add_argument('--model_name', type=str, default='VGG13', choices=['VGG13', 'VGG16', 'ResNet50', 'ResNet101', 'ResidualAttention'], help='Name of architecture')
+    parser.add_argument('--model_name', type=str, default='VGG13', choices=['VGG16', 'ResNet101', 'ResNet101SE', 'ResidualAttention', 'ResidualAttentionSE'], help='Name of architecture')
     opt = parser.parse_args()
 
     # training parameters
