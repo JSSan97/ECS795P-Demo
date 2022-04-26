@@ -34,7 +34,7 @@ def get_model(model_name, device, dataset):
         "VGG16": VGG16(dataset.get_number_of_classes(), input_channels),
         "ResNet101": ResNet101(dataset.get_number_of_classes(), input_channels),
         "ResNet101SE": ResNet101SE(dataset.get_number_of_classes(), input_channels),
-        'ResidualAttention50': ResidualAttentionModel_56(dataset.get_number_of_classes(), input_channels),
+        ## 'ResidualAttention50': ResidualAttentionModel_56(dataset.get_number_of_classes(), input_channels),
     }
 
     return models.get(model_name).to(device=device)
