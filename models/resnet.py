@@ -10,7 +10,7 @@ class Bottleneck(nn.Module):
         super(Bottleneck, self).__init__()
 
         self.use_se = use_se
-        self.se = SE_Block(out_channels, 16)
+        self.se = SE_Block(out_channels)
 
         self.conv1 = nn.Conv2d(in_channels, out_channels, kernel_size=1, stride=1, padding=0)
         self.batch_norm1 = nn.BatchNorm2d(out_channels)
@@ -55,7 +55,7 @@ class Block(nn.Module):
         super(Block, self).__init__()
 
         self.use_se = use_se
-        self.se = SE_Block(out_channels, 16)
+        self.se = SE_Block(out_channels)
 
         self.conv1 = nn.Conv2d(in_channels, out_channels, kernel_size=3, padding=1, stride=stride, bias=False)
         self.batch_norm1 = nn.BatchNorm2d(out_channels)
