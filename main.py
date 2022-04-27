@@ -90,7 +90,7 @@ def main():
     history['test_accuracy'] = []
     history['time'] = []
 
-    logger_filename = "logger_epoch_{}.txt".format(epochs)
+    logger_filename = "logger_{}_{}_epoch_{}.txt".format(opt.modelname, opt.dataset, epochs)
     logger = setup_custom_logger('logger', '{}/{}'.format(results_path, logger_filename))
 
     # Training
