@@ -4,8 +4,9 @@ import torch.nn as nn
 import time
 import numpy as np
 from utils import get_model, get_dataset, plot_loss, plot_accuracy, get_optimizer
+from logger import setup_custom_logger
 
-def train_loop(dataloader, model, criterion, optimizer, device):
+def train_loop(dataloader, model, criterion, optimizer, device, logger):
     size = len(dataloader.dataset)
     loss_ep = 0
     correct = 0
@@ -30,9 +31,10 @@ def train_loop(dataloader, model, criterion, optimizer, device):
     accuracy = (correct / size) * 100
 
     print("Train Accuracy: {:>0.1f}%, Avg Loss: {:.3f}".format(accuracy, avg_loss))
+    logger.info("Train Accuracy: {:>0.1f}%, Avg Loss: {:.3f}".format(accuracy, avg_loss))
     return avg_loss, accuracy
 
-def test_loop(dataloader, model, criterion, device):
+def test_loop(dataloader, model, criterion, device, logger):
     size = len(dataloader.dataset)
     num_batches = len(dataloader)
     test_loss, correct = 0, 0
@@ -49,6 +51,7 @@ def test_loop(dataloader, model, criterion, device):
     avg_loss = (test_loss / num_batches)
     accuracy = (correct / size) * 100
     print("Test Accuracy: {:>0.1f}%, Avg Loss: {:.3f}".format(accuracy, avg_loss))
+    logger.info("Test Accuracy: {:>0.1f}%, Avg Loss: {:.3f}".format(accuracy, avg_loss))
     return avg_loss, accuracy
 
 def main():
@@ -87,10 +90,15 @@ def main():
     history['test_accuracy'] = []
     history['time'] = []
 
+    logger_filename = "logger_epoch_{}.txt".format(epochs)
+    logger = setup_custom_logger('logger', '{}/{}'.format(results_path, logger_filename))
+
     # Training
     start_time = time.time()
     for epoch in range(epochs):
         print("---- Epoch {} ----".format(epoch + 1))
+        logger.info("---- Epoch {} ----".format(epoch + 1))
+
         train_avg_loss, train_accuracy = train_loop(train_loader, model, criterion, optimizer, device)
         history['train_avg_loss'].append(train_avg_loss)
         history['train_accuracy'].append(train_accuracy)
@@ -99,11 +107,14 @@ def main():
         history['test_accuracy'].append(test_accuracy)
         current_time = time.time() - start_time
         history['time'].append(current_time)
+
         print("Current Training Time: {}".format(current_time))
+        logger.info("Current Training Time: {}".format(current_time))
 
     end_time = time.time()
     total_train_time = end_time - start_time
     print("Total Training Time: {}".format(total_train_time))
+    logger.info("Total Training Time: {}".format(total_train_time))
 
     # Save training/test history
     history_filename = "training_history_{}.npy".format(epoch + 1)
