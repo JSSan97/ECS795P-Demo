@@ -59,6 +59,7 @@ def main():
     parser.add_argument('--dataset', type=str, default='MNIST', choices=['MNIST', 'CIFAR10', 'MNISTFashion'], help='Training/Test Dataset')
     parser.add_argument('--epochs', type=int, default=50, help='Training Epochs')
     parser.add_argument('--model_name', type=str, default='VGG13', choices=['VGG16', 'ResNet101', 'ResNet101SE', 'ResidualAttention56'], help='Name of architecture')
+    parser.add_argument('--log_file', type=str, help='Name of Log File')
     opt = parser.parse_args()
 
     # training parameters
@@ -88,7 +89,7 @@ def main():
     history['test_accuracy'] = []
     history['time'] = []
 
-    logger = setup_custom_logger('logger')
+    logger = setup_custom_logger('logger', opt.log_file)
     logger.info("Training Model: {}, Dataset: {}, Epochs {}".format(opt.model_name, opt.dataset, epochs))
 
     # Training
