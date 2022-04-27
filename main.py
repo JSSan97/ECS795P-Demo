@@ -30,7 +30,6 @@ def train_loop(dataloader, model, criterion, optimizer, device, logger):
     avg_loss = loss_ep / len(dataloader)
     accuracy = (correct / size) * 100
 
-    print("Train Accuracy: {:>0.1f}%, Avg Loss: {:.3f}".format(accuracy, avg_loss))
     logger.info("Train Accuracy: {:>0.1f}%, Avg Loss: {:.3f}".format(accuracy, avg_loss))
     return avg_loss, accuracy
 
@@ -50,7 +49,6 @@ def test_loop(dataloader, model, criterion, device, logger):
 
     avg_loss = (test_loss / num_batches)
     accuracy = (correct / size) * 100
-    print("Test Accuracy: {:>0.1f}%, Avg Loss: {:.3f}".format(accuracy, avg_loss))
     logger.info("Test Accuracy: {:>0.1f}%, Avg Loss: {:.3f}".format(accuracy, avg_loss))
     return avg_loss, accuracy
 
@@ -91,13 +89,11 @@ def main():
     history['time'] = []
 
     logger = setup_custom_logger('logger')
-    print("Training Model: {}, Dataset: {}, Epochs {}".format(opt.model_name, opt.dataset, epochs))
     logger.info("Training Model: {}, Dataset: {}, Epochs {}".format(opt.model_name, opt.dataset, epochs))
 
     # Training
     start_time = time.time()
     for epoch in range(epochs):
-        print("---- Epoch {} ----".format(epoch + 1))
         logger.info("---- Epoch {} ----".format(epoch + 1))
 
         train_avg_loss, train_accuracy = train_loop(train_loader, model, criterion, optimizer, device, logger)
@@ -109,12 +105,10 @@ def main():
         current_time = time.time() - start_time
         history['time'].append(current_time)
 
-        print("Current Training Time: {}".format(current_time))
         logger.info("Current Training Time: {}".format(current_time))
 
     end_time = time.time()
     total_train_time = end_time - start_time
-    print("Total Training Time: {}".format(total_train_time))
     logger.info("Total Training Time: {}".format(total_train_time))
 
     # Save training/test history
