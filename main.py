@@ -90,8 +90,9 @@ def main():
     history['test_accuracy'] = []
     history['time'] = []
 
-    logger_filename = "logger_{}_{}_epoch_{}.txt".format(opt.model_name, opt.dataset, epochs)
-    logger = setup_custom_logger('logger', logger_filename)
+    logger = setup_custom_logger('logger')
+    print("Training Model: {}, Dataset: {}, Epochs {}".format(opt.model_name, opt.dataset, epochs))
+    logger.info("Training Model: {}, Dataset: {}, Epochs {}".format(opt.model_name, opt.dataset, epochs))
 
     # Training
     start_time = time.time()
