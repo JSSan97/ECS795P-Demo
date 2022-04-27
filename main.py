@@ -91,7 +91,7 @@ def main():
     history['time'] = []
 
     logger_filename = "logger_{}_{}_epoch_{}.txt".format(opt.model_name, opt.dataset, epochs)
-    logger = setup_custom_logger('logger', '{}/{}'.format(results_path, logger_filename))
+    logger = setup_custom_logger('logger', logger_filename)
 
     # Training
     start_time = time.time()
