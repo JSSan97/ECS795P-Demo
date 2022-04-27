@@ -59,7 +59,7 @@ class ResidualAttentionModel_56(nn.Module):
             nn.ReLU(inplace=True),
             nn.AvgPool2d(kernel_size=7, stride=1)
         )
-        self.fc = nn.Linear(2048,num_classes)
+        self.fc = nn.Linear(2048, num_classes)
 
     def forward(self, x):
         out = self.conv1(x)
