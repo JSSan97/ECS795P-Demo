@@ -10,14 +10,14 @@ class ResidualBlock(nn.Module):
         self.stride = stride
         self.bn1 = nn.BatchNorm2d(input_channels)
         self.relu = nn.ReLU(inplace=True)
-        self.conv1 = nn.Conv2d(input_channels, output_channels / 4, 1, 1, bias=False)
-        self.bn2 = nn.BatchNorm2d(output_channels / 4)
-        self.relu = nn.ReLU(inplace=True)
-        self.conv2 = nn.Conv2d(output_channels / 4, output_channels / 4, 3, stride, padding=1, bias=False)
-        self.bn3 = nn.BatchNorm2d(output_channels / 4)
-        self.relu = nn.ReLU(inplace=True)
-        self.conv3 = nn.Conv2d(output_channels / 4, output_channels, 1, 1, bias=False)
-        self.conv4 = nn.Conv2d(input_channels, output_channels, 1, stride, bias=False)
+        self.conv1 = nn.Conv2d(input_channels, int(output_channels / 4), kernel_size=1, stride=1, bias=False)
+        self.bn2 = nn.BatchNorm2d(int(output_channels / 4))
+        self.conv2 = nn.Conv2d(int(output_channels / 4), int(output_channels / 4), kernel_size=3, stride=stride, padding=1, bias=False)
+        self.bn3 = nn.BatchNorm2d(int(output_channels / 4))
+        self.conv3 = nn.Conv2d(int(output_channels / 4), output_channels, kernel_size=1, stride=1, bias=False)
+        # Downsample
+        self.conv4 = nn.Conv2d(input_channels, output_channels, kernel_size=1, stride=stride, bias=False)
+
 
     def forward(self, x):
         residual = x
@@ -30,6 +30,7 @@ class ResidualBlock(nn.Module):
         out = self.bn3(out)
         out = self.relu(out)
         out = self.conv3(out)
+        # Downsample
         if (self.input_channels != self.output_channels) or (self.stride != 1):
             residual = self.conv4(out1)
         out += residual
