@@ -99,10 +99,10 @@ def main():
         print("---- Epoch {} ----".format(epoch + 1))
         logger.info("---- Epoch {} ----".format(epoch + 1))
 
-        train_avg_loss, train_accuracy = train_loop(train_loader, model, criterion, optimizer, device)
+        train_avg_loss, train_accuracy = train_loop(train_loader, model, criterion, optimizer, device, logger)
         history['train_avg_loss'].append(train_avg_loss)
         history['train_accuracy'].append(train_accuracy)
-        test_avg_loss, test_accuracy = test_loop(test_loader, model, criterion, device)
+        test_avg_loss, test_accuracy = test_loop(test_loader, model, criterion, device, logger)
         history['test_avg_loss'].append(test_avg_loss)
         history['test_accuracy'].append(test_accuracy)
         current_time = time.time() - start_time
