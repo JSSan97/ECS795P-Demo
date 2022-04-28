@@ -2,15 +2,20 @@
 
 import torch.nn as nn
 from models.squeeze_excitation import SE_Block
+from models.cbam import ChannelAttention, SpatialAttention
 
 class Bottleneck(nn.Module):
     expansion = 4
 
-    def __init__(self, in_channels, out_channels, i_downsample=None, stride=1, use_se=False):
+    def __init__(self, in_channels, out_channels, i_downsample=None, stride=1, use_se=False, use_cbam=False):
         super(Bottleneck, self).__init__()
 
         self.use_se = use_se
         self.se = SE_Block(out_channels)
+
+        self.use_cbam = use_cbam
+        self.cbam_ca = ChannelAttention(out_channels * 4)
+        self.cbam_sa = SpatialAttention()
 
         self.conv1 = nn.Conv2d(in_channels, out_channels, kernel_size=1, stride=1, padding=0)
         self.batch_norm1 = nn.BatchNorm2d(out_channels)
@@ -38,6 +43,10 @@ class Bottleneck(nn.Module):
         if self.use_se:
             x = self.se(x)
 
+        if self.use_cbam:
+            x = self.cbam_ca * x
+            x = self.cbam_sa * x
+
         # downsample if needed
         if self.i_downsample is not None:
             identity = self.i_downsample(identity)
@@ -51,11 +60,15 @@ class Bottleneck(nn.Module):
 class Block(nn.Module):
     expansion = 1
 
-    def __init__(self, in_channels, out_channels, i_downsample=None, stride=1, use_se=False):
+    def __init__(self, in_channels, out_channels, i_downsample=None, stride=1, use_se=False, use_cbam=False):
         super(Block, self).__init__()
 
         self.use_se = use_se
         self.se = SE_Block(out_channels)
+
+        self.use_cbam = use_cbam
+        self.cbam_ca = ChannelAttention(out_channels * 4)
+        self.cbam_sa = SpatialAttention()
 
         self.conv1 = nn.Conv2d(in_channels, out_channels, kernel_size=3, padding=1, stride=stride, bias=False)
         self.batch_norm1 = nn.BatchNorm2d(out_channels)
@@ -76,19 +89,25 @@ class Block(nn.Module):
         if self.use_se:
             x = self.se(x)
 
+        if self.use_cbam:
+            x = self.cbam_ca * x
+            x = self.cbam_sa * x
+
         if self.i_downsample is not None:
             identity = self.i_downsample(identity)
+
         x += identity
         x = self.relu(x)
         return x
 
 
 class ResNet(nn.Module):
-    def __init__(self, ResBlock, layer_list, num_classes, num_channels=3, use_se=False):
+    def __init__(self, ResBlock, layer_list, num_classes, num_channels=3, use_se=False, use_cbam=False):
         super(ResNet, self).__init__()
         self.in_channels = 64
 
         self.use_se = use_se
+        self.use_cbam = use_cbam
 
         self.conv1 = nn.Conv2d(num_channels, 64, kernel_size=7, stride=2, padding=3, bias=False)
         self.batch_norm1 = nn.BatchNorm2d(64)
@@ -128,11 +147,11 @@ class ResNet(nn.Module):
                 nn.BatchNorm2d(planes * ResBlock.expansion)
             )
 
-        layers.append(ResBlock(self.in_channels, planes, i_downsample=ii_downsample, stride=stride, use_se=self.use_se))
+        layers.append(ResBlock(self.in_channels, planes, i_downsample=ii_downsample, stride=stride, use_se=self.use_se), use_cbam=self.use_cbam)
         self.in_channels = planes * ResBlock.expansion
 
         for i in range(blocks - 1):
-            layers.append(ResBlock(self.in_channels, planes, use_se=self.use_se))
+            layers.append(ResBlock(self.in_channels, planes, use_se=self.use_se, use_cbam=self.use_cbam))
 
         return nn.Sequential(*layers)
 
@@ -140,12 +159,14 @@ class ResNet(nn.Module):
 def ResNet50(num_classes, channels=3):
     return ResNet(Bottleneck, [3, 4, 6, 3], num_classes, channels)
 
+def ResNet50SE(num_classes, channels=3):
+    return ResNet(Bottleneck, [3, 4, 6, 3], num_classes, channels, use_se=True)
 
 def ResNet101(num_classes, channels=3):
     return ResNet(Bottleneck, [3, 4, 23, 3], num_classes, channels)
 
-def ResNet50SE(num_classes, channels=3):
-    return ResNet(Bottleneck, [3, 4, 6, 3], num_classes, channels, use_se=True)
-
 def ResNet101SE(num_classes, channels=3):
     return ResNet(Bottleneck, [3, 4, 23, 3], num_classes, channels, use_se=True)
+
+def ResNet101CBAM(num_classes, channels=3):
+    return ResNet(Bottleneck, [3, 4, 23, 3], num_classes, channels, use_cbam=True)

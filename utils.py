@@ -2,9 +2,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import torch.optim as optim
 
-from models.residualattention import ResidualAttentionModel_56
+from models.residualattention import ResidualAttentionModel_56, ResidualAttentionModel_92
 from models.vgg import VGG16
-from models.resnet import ResNet101, ResNet101SE
+from models.resnet import ResNet101, ResNet101SE, ResNet101CBAM
 from datasets import MNISTDigits, CIFAR10, FashionMNIST
 
 
@@ -34,7 +34,9 @@ def get_model(model_name, device, dataset):
         "VGG16": VGG16(dataset.get_number_of_classes(), input_channels),
         "ResNet101": ResNet101(dataset.get_number_of_classes(), input_channels),
         "ResNet101SE": ResNet101SE(dataset.get_number_of_classes(), input_channels),
+        "ResNet101CBAM": ResNet101CBAM(dataset.get_number_of_classes(), input_channels),
         'ResidualAttention56': ResidualAttentionModel_56(dataset.get_number_of_classes(), input_channels),
+        'ResidualAttentionModel_92': ResidualAttentionModel_92(dataset.get_number_of_classes(), input_channels),
     }
 
     return models.get(model_name).to(device=device)
