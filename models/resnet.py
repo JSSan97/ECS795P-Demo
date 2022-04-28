@@ -147,7 +147,7 @@ class ResNet(nn.Module):
                 nn.BatchNorm2d(planes * ResBlock.expansion)
             )
 
-        layers.append(ResBlock(self.in_channels, planes, i_downsample=ii_downsample, stride=stride, use_se=self.use_se), use_cbam=self.use_cbam)
+        layers.append(ResBlock(self.in_channels, planes, i_downsample=ii_downsample, stride=stride, use_se=self.use_se, use_cbam=self.use_cbam))
         self.in_channels = planes * ResBlock.expansion
 
         for i in range(blocks - 1):
