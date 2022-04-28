@@ -36,7 +36,7 @@ def get_model(model_name, device, dataset):
         "ResNet101SE": ResNet101SE(dataset.get_number_of_classes(), input_channels),
         "ResNet101CBAM": ResNet101CBAM(dataset.get_number_of_classes(), input_channels),
         'ResidualAttention56': ResidualAttentionModel_56(dataset.get_number_of_classes(), input_channels),
-        'ResidualAttention92': ResidualAttentionModel_92(dataset.get_number_of_classes(), input_channels),
+        'ResidualAttention92': ResidualAttentionModel_92(dataset.get_number_of_classes(), input_channels), ## Too many parameters, run out of memory on google collab...
     }
 
     return models.get(model_name).to(device=device)

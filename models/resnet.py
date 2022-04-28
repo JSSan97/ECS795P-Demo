@@ -44,8 +44,8 @@ class Bottleneck(nn.Module):
             x = self.se(x)
 
         if self.use_cbam:
-            x = self.cbam_ca * x
-            x = self.cbam_sa * x
+            x = self.cbam_ca(x) * x
+            x = self.cbam_sa(x) * x
 
         # downsample if needed
         if self.i_downsample is not None:
@@ -90,8 +90,8 @@ class Block(nn.Module):
             x = self.se(x)
 
         if self.use_cbam:
-            x = self.cbam_ca * x
-            x = self.cbam_sa * x
+            x = self.cbam_ca(x) * x
+            x = self.cbam_sa(x) * x
 
         if self.i_downsample is not None:
             identity = self.i_downsample(identity)
