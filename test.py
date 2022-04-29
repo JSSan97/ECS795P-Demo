@@ -11,8 +11,8 @@ def test_model():
     parser.add_argument('--main_path', )
     parser.add_argument('--batch_size', type=int, default=8, help='Batch Size')
     parser.add_argument('--dataset', type=str, default='MNISTFashion', choices=['MNIST', 'CIFAR10', 'MNISTFashion'], help='Training/Test Dataset')
-    parser.add_argument('--model_name', type=str, default='VGG13', choices=['VGG13', 'VGG16'], help='Name of architecture')
-    parser.add_argument('--model_path', type=str, default='C:/Users/jsan/PycharmProjects/CV_CW3/MNISTFashion_results/VGG13/model_VGG13_epoch50.pth', help='Full path to the model')
+    parser.add_argument('--model_name', type=str, default='VGG16', choices=['VGG16', 'ResNet101', 'ResNet101SE', 'ResNet101CBAM', 'ResidualAttention56'], help='Name of architecture')
+    parser.add_argument('--model_path', type=str, default='C:/Users/jsan/PycharmProjects/CV_CW3/MNISTFashion_results/VGG16/model_VGG16_epoch40.pth', help='Full path to the model')
     parser.add_argument('--full_test', type=bool, default=False, help='Run full test loop on model to get accuracy and loss from validation dataset')
     opt = parser.parse_args()
 
@@ -21,13 +21,13 @@ def test_model():
     test_loader = dataset.get_test_loader()
 
     test_iter = iter(test_loader)
-
     images, labels = test_iter.next()
+
     # Save Images
     save_path = "{}/test_img.png".format(dataset.get_results_model_dir())
     load_image_from_tensor(torchvision.utils.make_grid(images), save_path=save_path)
 
-    # Load Ground Truth Laels
+    # Load Ground Truth Labels
     id_to_class_map = dataset.get_id_to_class_mapping()
     ground_truth_labels = "  |  ".join([id_to_class_map[label.item()] for label in labels])
 
