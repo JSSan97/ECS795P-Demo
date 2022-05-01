@@ -22,6 +22,8 @@ def load_image_from_tensor(image, save_path=None, title=None):
         print("Images saved in: {}".format(save_path))
         plt.savefig(save_path)
 
+    plt.show()
+
     plt.close()
 
 
