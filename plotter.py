@@ -38,6 +38,7 @@ def plotter(save=True, show=True):
 
     for model, path in BY_DATASET.get(opt.dataset).items():
         train_history = np.load(path, allow_pickle=True)
+        print(train_history)
         train_history = np.ndarray.tolist(train_history)
         x = range(len(train_history['train_avg_loss']))
         y1 = train_history['train_avg_loss']
