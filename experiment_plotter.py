@@ -16,7 +16,7 @@ BY_DATASET = {
         'ResidualAttention56': '{}/ResidualAttention56/{}'.format(MNIST_PATH, FILENAME),
         'ResNet101CBAM': '{}/ResNet101CBAM/{}'.format(MNIST_PATH, FILENAME),
     },
-    'MNISTFASHION': {
+    'MNISTFashion': {
         'VGG16': '{}/VGG16/{}'.format(MNISTFASHION_PATH, FILENAME),
         'ResNet101': '{}/ResNet101/{}'.format(MNISTFASHION_PATH, FILENAME),
         'ResNet101SE': '{}/ResNet101SE/{}'.format(MNISTFASHION_PATH, FILENAME),
