@@ -45,28 +45,32 @@ def test_model():
     # parser.add_argument('--full_test', type=bool, default=False, help='Run full test loop on model to get accuracy and loss from validation dataset')
     opt = parser.parse_args()
 
-    # Get dataset
-    dataset = get_dataset(opt.dataset, opt.model_name, opt.batch_size)
-    test_loader = dataset.get_test_loader()
-
-    test_iter = iter(test_loader)
-    images, labels = test_iter.next()
-
-    print("--- Input Images ---")
-    save_path = "{}/test_img.png".format(dataset.get_results_model_dir())
-    load_image_from_tensor(torchvision.utils.make_grid(images), save_path=save_path)
-
-    # Load Ground Truth Labels
-    id_to_class_map = dataset.get_id_to_class_mapping()
-    ground_truth_labels = "  |  ".join([id_to_class_map[label.item()] for label in labels])
-
-    print("--- Ground Truth Labels ---")
-    print(ground_truth_labels)
-
     # initialise the device for training, if gpu is available, device = 'cuda', else: device = 'cpu'
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-    for model, path in BY_DATASET.get(dataset).items():
+    count = 1
+
+    for model, path in BY_DATASET.get(opt.dataset).items():
+        if count == 1:
+            # Get dataset
+            dataset = get_dataset(opt.dataset, opt.model_name, opt.batch_size)
+            test_loader = dataset.get_test_loader()
+
+            test_iter = iter(test_loader)
+            images, labels = test_iter.next()
+
+            print("--- Input Images ---")
+            save_path = "{}/test_img.png".format(dataset.get_results_model_dir())
+            load_image_from_tensor(torchvision.utils.make_grid(images), save_path=save_path)
+
+            # Load Ground Truth Labels
+            id_to_class_map = dataset.get_id_to_class_mapping()
+            ground_truth_labels = "  |  ".join([id_to_class_map[label.item()] for label in labels])
+
+            print("--- Ground Truth Labels ---")
+            print(ground_truth_labels)
+            count += 1
+
         # Load model
         model = get_model(model, device, dataset)
         model.load_state_dict(torch.load(path))
