@@ -1,6 +1,8 @@
 import argparse
 import torch
 import torchvision
+
+from logger import setup_custom_logger
 from utils import get_model, get_dataset, load_image_from_tensor
 from main import test_loop
 import torch.nn as nn
@@ -45,6 +47,8 @@ def test_model():
     # parser.add_argument('--full_test', type=bool, default=False, help='Run full test loop on model to get accuracy and loss from validation dataset')
     opt = parser.parse_args()
 
+    logger = setup_custom_logger()
+
     # Get dataset
     dataset = get_dataset(opt.dataset, "VGG16", opt.batch_size)
     test_loader = dataset.get_test_loader()
@@ -52,7 +56,7 @@ def test_model():
     test_iter = iter(test_loader)
     images, labels = test_iter.next()
 
-    print("--- Input Images ---")
+    logger.info("--- Input Images ---")
     save_path = "{}/test_img.png".format(dataset.get_results_model_dir())
     load_image_from_tensor(torchvision.utils.make_grid(images), save_path=save_path)
 
@@ -60,8 +64,8 @@ def test_model():
     id_to_class_map = dataset.get_id_to_class_mapping()
     ground_truth_labels = "  |  ".join([id_to_class_map[label.item()] for label in labels])
 
-    print("--- Ground Truth Labels ---")
-    print(ground_truth_labels)
+    logger.info("--- Ground Truth Labels ---")
+    logger.info(ground_truth_labels)
 
     # initialise the device for training, if gpu is available, device = 'cuda', else: device = 'cpu'
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -76,8 +80,8 @@ def test_model():
         _, predicted = torch.max(outputs, 1)
         predicted_labels = "  |  ".join([id_to_class_map[label.item()] for label in predicted])
 
-        print("--- Model {} Predicted Labels ---".format(model_name))
-        print(predicted_labels)
+        logger.info("--- Model {} Predicted Labels ---".format(model_name))
+        logger.info(predicted_labels)
 
     # if opt.full_test:
     #     print("--- Accuracy and Loss from Validation Set ---")
