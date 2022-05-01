@@ -14,7 +14,7 @@ class Bottleneck(nn.Module):
         self.se = SE_Block(out_channels)
 
         self.use_cbam = use_cbam
-        self.cbam_ca = ChannelAttention(out_channels * 4)
+        self.cbam_ca = ChannelAttention(out_channels)
         self.cbam_sa = SpatialAttention()
 
         self.conv1 = nn.Conv2d(in_channels, out_channels, kernel_size=1, stride=1, padding=0)

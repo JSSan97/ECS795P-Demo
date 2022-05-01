@@ -1,7 +1,6 @@
 import argparse
 import numpy as np
 import matplotlib.pyplot as plt
-import os
 
 MNIST_PATH = '/content/drive/MyDrive/Github/ECS795P-Demo/MNIST_results'
 MNISTFASHION_PATH = '/content/drive/MyDrive/Github/ECS795P-Demo/MNISTFashion_results'
