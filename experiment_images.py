@@ -53,7 +53,7 @@ def test_model():
     for model, path in BY_DATASET.get(opt.dataset).items():
         if count == 1:
             # Get dataset
-            dataset = get_dataset(opt.dataset, opt.model_name, opt.batch_size)
+            dataset = get_dataset(opt.dataset, model, opt.batch_size)
             test_loader = dataset.get_test_loader()
 
             test_iter = iter(test_loader)
@@ -72,6 +72,7 @@ def test_model():
             count += 1
 
         # Load model
+        dataset = get_dataset(opt.dataset, model, opt.batch_size)
         model = get_model(model, device, dataset)
         model.load_state_dict(torch.load(path))
 
