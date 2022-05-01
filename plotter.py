@@ -38,25 +38,51 @@ def plotter(save=True, show=True):
     parser.add_argument('--dataset', type=str, default='MNIST', choices=['MNIST', 'CIFAR10', 'MNISTFashion'], help='Dataset')
     opt = parser.parse_args()
 
-    for model, path in BY_DATASET.get(opt.dataset).items():
+    print("==== Training Loss Over Epoch =====")
+    train_loss(opt.dataset)
+    test_loss(opt.dataset)
+
+def train_loss(dataset, save=True, show=True):
+    for model, path in BY_DATASET.get(dataset).items():
         print("Model {} ".format(model))
         train_history = np.load(path, allow_pickle=True)
         train_history = np.ndarray.tolist(train_history)
         x = range(len(train_history['train_avg_loss']))
         y1 = train_history['train_avg_loss']
-        y2 = train_history['test_avg_loss']
         plt.plot(x, y1, label='Training Loss {}'.format(model))
-        plt.plot(x, y2, label='Testing Loss {}'.format(model))
 
     plt.xlabel('Epoch')
     plt.ylabel('Avg Loss')
-    plt.title('Test & Training Loss Over Epoch')
+    plt.title('Training Loss Over Epoch')
     plt.legend(bbox_to_anchor=(1, 1), loc=1, borderaxespad=0)
     plt.grid(True)
     plt.tight_layout()
 
     if save:
-        plt.savefig("Loss_{}".format(opt.dataset))
+        plt.savefig("Loss_Train_{}.png".format(dataset))
+    if show:
+        plt.show()
+    else:
+        plt.close()
+
+def test_loss(dataset, save=True, show=True):
+    for model, path in BY_DATASET.get(dataset).items():
+        print("Model {} ".format(model))
+        train_history = np.load(path, allow_pickle=True)
+        train_history = np.ndarray.tolist(train_history)
+        x = range(len(train_history['train_avg_loss']))
+        y1 = train_history['test_avg_loss']
+        plt.plot(x, y1, label='Testing Loss {}'.format(model))
+
+    plt.xlabel('Epoch')
+    plt.ylabel('Avg Loss')
+    plt.title('Test Loss Over Epoch')
+    plt.legend(bbox_to_anchor=(1, 1), loc=1, borderaxespad=0)
+    plt.grid(True)
+    plt.tight_layout()
+
+    if save:
+        plt.savefig("Loss_Test_{}.png".format(dataset))
     if show:
         plt.show()
     else:
