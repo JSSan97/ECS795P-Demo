@@ -23,10 +23,6 @@ def test_model():
     test_iter = iter(test_loader)
     images, labels = test_iter.next()
 
-    # Save Images
-    save_path = "{}/test_img.png".format(dataset.get_results_model_dir())
-    load_image_from_tensor(torchvision.utils.make_grid(images), save_path=save_path)
-
     # Load Ground Truth Labels
     id_to_class_map = dataset.get_id_to_class_mapping()
     ground_truth_labels = "  |  ".join([id_to_class_map[label.item()] for label in labels])
@@ -47,6 +43,9 @@ def test_model():
     print(ground_truth_labels)
     print("--- Predicted Labels ---")
     print(predicted_labels)
+    print("--- Input Images ---")
+    save_path = "{}/test_img.png".format(dataset.get_results_model_dir())
+    load_image_from_tensor(torchvision.utils.make_grid(images), save_path=save_path)
 
     if opt.full_test:
         print("--- Accuracy and Loss from Validation Set ---")
