@@ -46,7 +46,7 @@ def test_model():
     opt = parser.parse_args()
 
     # Get dataset
-    dataset = get_dataset(opt.dataset, opt.model_name, opt.batch_size)
+    dataset = get_dataset(opt.dataset, "VGG16", opt.batch_size)
     test_loader = dataset.get_test_loader()
 
     test_iter = iter(test_loader)
@@ -67,7 +67,6 @@ def test_model():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     for model, path in BY_DATASET.get(opt.dataset).items():
-        dataset = get_dataset(opt.dataset, model, opt.batch_size)
         # Load model
         model = get_model(model, device, dataset)
         model.load_state_dict(torch.load(path))
