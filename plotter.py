@@ -6,27 +6,29 @@ MNIST_PATH = '/content/drive/MyDrive/Github/ECS795P-Demo/MNIST_results'
 MNISTFASHION_PATH = '/content/drive/MyDrive/Github/ECS795P-Demo/MNISTFashion_results'
 CIFAR10_PATH = '/content/drive/MyDrive/Github/ECS795P-Demo/CIFAR10_results'
 
+FILENAME = 'training_history_40.npy'
+
 BY_DATASET = {
     'MNIST': {
-        'VGG16': '{}/VGG16/model_VGG16_epoch40.pth'.format(MNIST_PATH),
-        'ResNet101': '{}/ResNet101/model_ResNet101_epoch40.pth'.format(MNIST_PATH),
-        'ResNet101SE': '{}/ResNet101SE/model_ResNet101SE_epoch40.pth'.format(MNIST_PATH),
-        'ResidualAttention56': '{}/ResidualAttention56/model_ResidualAttention56_epoch40.pth'.format(MNIST_PATH),
-        'ResNet101CBAM': '{}/ResNet101CBAM/model_ResNet101CBAM_epoch40.pth'.format(MNIST_PATH),
+        'VGG16': '{}/VGG16/{}'.format(MNIST_PATH, FILENAME),
+        'ResNet101': '{}/ResNet101/{}'.format(MNIST_PATH, FILENAME),
+        'ResNet101SE': '{}/ResNet101SE/{}'.format(MNIST_PATH, FILENAME),
+        'ResidualAttention56': '{}/ResidualAttention56/{}'.format(MNIST_PATH, FILENAME),
+        'ResNet101CBAM': '{}/ResNet101CBAM/{}'.format(MNIST_PATH, FILENAME),
     },
     'MNISTFASHION': {
-        'VGG16': '{}/VGG16/model_VGG16_epoch40.pth'.format(MNISTFASHION_PATH),
-        'ResNet101': '{}/ResNet101/model_ResNet101_epoch40.pth'.format(MNISTFASHION_PATH),
-        'ResNet101SE': '{}/ResNet101SE/model_ResNet101SE_epoch40.pth'.format(MNISTFASHION_PATH),
-        'ResidualAttention56': '{}/ResidualAttention56/model_ResidualAttention56_epoch40.pth'.format(MNISTFASHION_PATH),
-        'ResNet101CBAM': '{}/ResNet101CBAM/model_ResNet101CBAM_epoch40.pth'.format(MNISTFASHION_PATH),
+        'VGG16': '{}/VGG16/{}'.format(MNISTFASHION_PATH, FILENAME),
+        'ResNet101': '{}/ResNet101/{}'.format(MNISTFASHION_PATH, FILENAME),
+        'ResNet101SE': '{}/ResNet101SE/{}'.format(MNISTFASHION_PATH, FILENAME),
+        'ResidualAttention56': '{}/ResidualAttention56/{}'.format(MNISTFASHION_PATH, FILENAME),
+        'ResNet101CBAM': '{}/ResNet101CBAM/{}'.format(MNISTFASHION_PATH, FILENAME),
     },
     'CIFAR10': {
-        'VGG16': '{}/VGG16/model_VGG16_epoch40.pth'.format(CIFAR10_PATH),
-        'ResNet101': '{}/ResNet101/model_ResNet101_epoch40.pth'.format(CIFAR10_PATH),
-        'ResNet101SE': '{}/ResNet101SE/model_ResNet101SE_epoch40.pth'.format(CIFAR10_PATH),
-        'ResidualAttention56': '{}/ResidualAttention56/model_ResidualAttention56_epoch40.pth'.format(CIFAR10_PATH),
-        'ResNet101CBAM': '{}/ResNet101CBAM/model_ResNet101CBAM_epoch40.pth'.format(CIFAR10_PATH),
+        'VGG16': '{}/VGG16/{}'.format(CIFAR10_PATH, FILENAME),
+        'ResNet101': '{}/ResNet101/{}'.format(CIFAR10_PATH, FILENAME),
+        'ResNet101SE': '{}/ResNet101SE/{}'.format(CIFAR10_PATH, FILENAME),
+        'ResidualAttention56': '{}/ResidualAttention56/{}'.format(CIFAR10_PATH, FILENAME),
+        'ResNet101CBAM': '{}/ResNet101CBAM/{}'.format(CIFAR10_PATH, FILENAME),
     },
 }
 
