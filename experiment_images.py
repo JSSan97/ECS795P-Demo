@@ -47,7 +47,7 @@ def test_model():
     # parser.add_argument('--full_test', type=bool, default=False, help='Run full test loop on model to get accuracy and loss from validation dataset')
     opt = parser.parse_args()
 
-    logger = setup_custom_logger()
+    logger = setup_custom_logger("Test Images for {}".format(opt.dataset), "Test_Images_{}.txt ".format(opt.dataset))
 
     # Get dataset
     dataset = get_dataset(opt.dataset, "VGG16", opt.batch_size)
