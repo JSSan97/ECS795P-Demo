@@ -39,15 +39,15 @@ def plotter(save=True, show=True):
     for model, path in BY_DATASET.get(opt.dataset).items():
         train_history = np.load(path, allow_pickle=True)
         train_history = np.ndarray.tolist(train_history)
-        x = train_history['time']
+        x = range(len(train_history['train_avg_loss']))
         y1 = train_history['train_avg_loss']
         y2 = train_history['test_avg_loss']
         plt.plot(x, y1, label='Training Loss {}'.format(model))
         plt.plot(x, y2, label='Testing Loss {}'.format(model))
 
-    plt.xlabel('Time')
+    plt.xlabel('Epoch')
     plt.ylabel('Loss')
-    plt.title('Test & Training Loss Over Time')
+    plt.title('Test & Training Loss Over Epoch')
     plt.legend(loc=4)
     plt.grid(True)
     plt.tight_layout()
