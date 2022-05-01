@@ -19,10 +19,11 @@ def load_image_from_tensor(image, save_path=None, title=None):
     plt.imshow(np.transpose(np_image, (1, 2, 0)))
 
     if save_path:
-        print("Images saved in: {}".format(save_path))
+        # print("Images saved in: {}".format(save_path))
         plt.savefig(save_path)
 
     plt.show()
+    plt.pause(0.1)
 
     plt.close()
 
