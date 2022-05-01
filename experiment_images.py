@@ -69,8 +69,7 @@ def test_model():
     for model_name, path in BY_DATASET.get(opt.dataset).items():
         # Load model
         model = get_model(model_name, device, dataset)
-        print(path)
-        model.load_state_dict(torch.load(path))
+        model.load_state_dict(torch.load(path), strict=False)
 
         # Get predictions
         outputs = model(images.to(device=device))
