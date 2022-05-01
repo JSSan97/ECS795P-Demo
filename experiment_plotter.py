@@ -50,7 +50,7 @@ def train_loss(dataset, save=True, show=True):
         x = range(len(train_history['train_avg_loss']))
         y1 = train_history['train_avg_loss']
         plt.plot(x, y1, label='Training Loss {}'.format(model))
-        print("Final Validation for Model {} is {}".format(model, train_history['train_avg_loss'][-1]))
+        print("Final Train for Model {} is {}".format(model, train_history['train_accuracy'][-1]))
 
     plt.xlabel('Epoch')
     plt.ylabel('Avg Loss')
@@ -75,7 +75,7 @@ def test_loss(dataset, save=True, show=True):
         x = range(len(train_history['train_avg_loss']))
         y1 = train_history['test_avg_loss']
         plt.plot(x, y1, label='Testing Loss {}'.format(model))
-        print("Final Validation for Model {} is {}".format(model, train_history['test_avg_loss'][-1]))
+        print("Final Test Validation Accuracy for Model {} is {}".format(model, train_history['train_accuracy'][-1]))
 
     plt.xlabel('Epoch')
     plt.ylabel('Avg Loss')
