@@ -7,7 +7,7 @@ class ChannelAttention(nn.Module):
         self.avg_pool = nn.AdaptiveAvgPool2d(1)
         self.max_pool = nn.AdaptiveMaxPool2d(1)
 
-        self.fc = nn.Sequential(nn.Conv2d(c * r, c // r, 1, bias=False),
+        self.fc = nn.Sequential(nn.Conv2d(r, c // r, 1, bias=False),
                                 nn.ReLU(),
                                 nn.Conv2d(c // r, c, 1, bias=False))
         self.sigmoid = nn.Sigmoid()
