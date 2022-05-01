@@ -51,7 +51,7 @@ def plotter(save=True, show=True):
     plt.xlabel('Epoch')
     plt.ylabel('Avg Loss')
     plt.title('Test & Training Loss Over Epoch')
-    plt.legend(bbox_to_anchor=(1, 1), loc=1, borderaxespad=0).
+    plt.legend(bbox_to_anchor=(1, 1), loc=1, borderaxespad=0)
     plt.grid(True)
     plt.tight_layout()
 
