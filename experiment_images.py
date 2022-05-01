@@ -4,8 +4,6 @@ import torchvision
 
 from logger import setup_custom_logger
 from utils import get_model, get_dataset, load_image_from_tensor
-from main import test_loop
-import torch.nn as nn
 
 MNIST_PATH = '/content/drive/MyDrive/Github/ECS795P-Demo/MNIST_results'
 MNISTFASHION_PATH = '/content/drive/MyDrive/Github/ECS795P-Demo/MNISTFashion_results'
@@ -41,9 +39,6 @@ def test_model():
     parser.add_argument('--main_path', )
     parser.add_argument('--batch_size', type=int, default=8, help='Batch Size')
     parser.add_argument('--dataset', type=str, default='MNISTFashion', choices=['MNIST', 'CIFAR10', 'MNISTFashion'], help='Training/Test Dataset')
-    # parser.add_argument('--model_name', type=str, default='VGG16', choices=['VGG16', 'ResNet101', 'ResNet101SE', 'ResNet101CBAM', 'ResidualAttention56'], help='Name of architecture')
-    # parser.add_argument('--model_path', type=str, default='C:/Users/jsan/PycharmProjects/CV_CW3/MNISTFashion_results/VGG16/model_VGG16_epoch40.pth', help='Full path to the model')
-    # parser.add_argument('--full_test', type=bool, default=False, help='Run full test loop on model to get accuracy and loss from validation dataset')
     opt = parser.parse_args()
 
     # Get dataset
@@ -80,11 +75,8 @@ def test_model():
         logger.info("--- Model {} Predicted Labels ---".format(model_name))
         logger.info(predicted_labels)
 
+    # Set logger to none as when we use %run in google colab, a second logger is created without this.
     logger = None
-    # if opt.full_test:
-    #     print("--- Accuracy and Loss from Validation Set ---")
-    #     criterion = nn.CrossEntropyLoss()
-    #     test_loop(test_loader, model, criterion, device)
 
 if __name__ == '__main__':
     test_model()
