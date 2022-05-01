@@ -36,9 +36,6 @@ BY_DATASET = {
     },
 }
 
-logger = setup_custom_logger("Test Images", "Test_Images.txt")
-
-
 def test_model():
     parser = argparse.ArgumentParser()
     parser.add_argument('--main_path', )
@@ -55,7 +52,7 @@ def test_model():
 
     test_iter = iter(test_loader)
     images, labels = test_iter.next()
-
+    logger = setup_custom_logger("Test Images", "Test_Images.txt")
     logger.info("--- Input Images ---")
     save_path = "{}/test_img.png".format(dataset.get_results_model_dir())
     load_image_from_tensor(torchvision.utils.make_grid(images), save_path=save_path)
@@ -83,6 +80,7 @@ def test_model():
         logger.info("--- Model {} Predicted Labels ---".format(model_name))
         logger.info(predicted_labels)
 
+    logger = None
     # if opt.full_test:
     #     print("--- Accuracy and Loss from Validation Set ---")
     #     criterion = nn.CrossEntropyLoss()
