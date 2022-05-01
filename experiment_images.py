@@ -66,9 +66,9 @@ def test_model():
     # initialise the device for training, if gpu is available, device = 'cuda', else: device = 'cpu'
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-    for model, path in BY_DATASET.get(opt.dataset).items():
+    for model_name, path in BY_DATASET.get(opt.dataset).items():
         # Load model
-        model = get_model(model, device, dataset)
+        model = get_model(model_name, device, dataset)
         model.load_state_dict(torch.load(path))
 
         # Get predictions
@@ -76,7 +76,7 @@ def test_model():
         _, predicted = torch.max(outputs, 1)
         predicted_labels = "  |  ".join([id_to_class_map[label.item()] for label in predicted])
 
-        print("--- Model {} Predicted Labels ---".format(model))
+        print("--- Model {} Predicted Labels ---".format(model_name))
         print(predicted_labels)
 
     # if opt.full_test:
