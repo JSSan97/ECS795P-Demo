@@ -53,7 +53,7 @@ def plotter(save=True, show=True):
     plt.tight_layout()
 
     if save:
-        plt.savefig("Loss_{}".format(opt.model_name))
+        plt.savefig("Loss_{}".format(opt.dataset))
     if show:
         plt.show()
     else:
