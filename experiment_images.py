@@ -75,7 +75,7 @@ def test_model():
         logger.info("--- Model {} Predicted Labels ---".format(model_name))
         logger.info(predicted_labels)
 
-        print(count_parameters(model))
+        ## logger.info("--- Parameter Size {} ---".format(count_parameters(model)))
 
     # Set logger to none as when we use %run in google colab, a second logger is created without this if you run the script more than once.
     logger = None
