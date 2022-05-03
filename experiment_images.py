@@ -77,8 +77,5 @@ def test_model():
 
         ## logger.info("--- Parameter Size {} ---".format(count_parameters(model)))
 
-    # Set logger to none as when we use %run in google colab, a second logger is created without this if you run the script more than once.
-    logger = None
-
 if __name__ == '__main__':
     test_model()
