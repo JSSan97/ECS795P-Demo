@@ -5,6 +5,7 @@ import torchvision
 from logger import setup_custom_logger
 from utils import get_model, get_dataset, load_image_from_tensor, count_parameters
 
+
 MNIST_PATH = '/content/drive/MyDrive/Github/ECS795P-Demo/MNIST_results'
 MNISTFASHION_PATH = '/content/drive/MyDrive/Github/ECS795P-Demo/MNISTFashion_results'
 CIFAR10_PATH = '/content/drive/MyDrive/Github/ECS795P-Demo/CIFAR10_results'
