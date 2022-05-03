@@ -4,7 +4,6 @@ import torchvision
 
 from logger import setup_custom_logger
 from utils import get_model, get_dataset, load_image_from_tensor, count_parameters
-from pytorch_model_summary import summary
 
 MNIST_PATH = '/content/drive/MyDrive/Github/ECS795P-Demo/MNIST_results'
 MNISTFASHION_PATH = '/content/drive/MyDrive/Github/ECS795P-Demo/MNISTFashion_results'
@@ -76,7 +75,7 @@ def test_model():
         logger.info("--- Model {} Predicted Labels ---".format(model_name))
         logger.info(predicted_labels)
 
-        print(summary(get_model(model_name, device, dataset), images.to(device=device), show_input=False, show_hierarchical=True))
+        print(count_parameters(model))
 
     # Set logger to none as when we use %run in google colab, a second logger is created without this if you run the script more than once.
     logger = None
