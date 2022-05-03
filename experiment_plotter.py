@@ -32,7 +32,7 @@ BY_DATASET = {
     },
 }
 
-def plotter(save=True, show=True):
+def plotter():
     # Arguments
     parser = argparse.ArgumentParser()
     parser.add_argument('--dataset', type=str, default='MNIST', choices=['MNIST', 'CIFAR10', 'MNISTFashion'], help='Dataset')
@@ -41,6 +41,9 @@ def plotter(save=True, show=True):
     print("==== Training Loss Over Epoch =====")
     train_loss(opt.dataset)
     test_loss(opt.dataset)
+    print("==== Training Accuracy Over Epoch =====")
+    train_accuracy(opt.dataset)
+    test_accurcy(opt.dataset)
 
 def train_loss(dataset, save=True, show=True):
     for model, path in BY_DATASET.get(dataset).items():
