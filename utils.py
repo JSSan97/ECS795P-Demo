@@ -93,3 +93,6 @@ def plot_accuracy(history, show=False, save=False, path='train_accuracy.png'):
         plt.show()
     else:
         plt.close()
+
+def count_parameters(model):
+    return sum(p.numel() for p in model.parameters() if p.requires_grad)
