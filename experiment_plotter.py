@@ -81,7 +81,7 @@ def test_loss(dataset, save=True, show=True):
     plt.xlabel('Epoch')
     plt.ylabel('Avg Loss')
     plt.title('Test Loss Over Epoch - {}'.format(dataset))
-    plt.legend(bbox_to_anchor=(1, 1), loc=1, borderaxespad=0)
+    plt.legend(bbox_to_anchor=(1, 1), loc='lower right', borderaxespad=0)
     plt.grid(True)
     plt.tight_layout()
 
@@ -106,7 +106,7 @@ def train_accuracy(dataset, save=True, show=True):
     plt.xlabel('Epoch')
     plt.ylabel('Accuracy')
     plt.title('Training Accuracy Over Epoch - {}'.format(dataset))
-    plt.legend(bbox_to_anchor=(1, 1), loc=4, borderaxespad=0)
+    plt.legend(bbox_to_anchor=(1, 1), loc='lower right', borderaxespad=0)
     plt.grid(True)
     plt.tight_layout()
 
