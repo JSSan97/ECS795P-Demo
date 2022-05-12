@@ -106,7 +106,7 @@ def train_accuracy(dataset, save=True, show=True):
     plt.xlabel('Epoch')
     plt.ylabel('Accuracy')
     plt.title('Training Accuracy Over Epoch - {}'.format(dataset))
-    plt.legend(bbox_to_anchor=(1, 1), borderaxespad=0)
+    plt.legend(borderaxespad=0)
     plt.grid(True)
     plt.tight_layout()
 
@@ -131,7 +131,7 @@ def test_accurcy(dataset, save=True, show=True):
     plt.xlabel('Epoch')
     plt.ylabel('Accuracy')
     plt.title('Test test_accuracy Over Epoch - {}'.format(dataset))
-    plt.legend(bbox_to_anchor=(1, 1), borderaxespad=0)
+    plt.legend(borderaxespad=0)
     plt.grid(True)
     plt.tight_layout()
 
