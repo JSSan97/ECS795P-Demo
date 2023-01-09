@@ -10,4 +10,4 @@ Run experiment_plotter.py to view loss and accuracy during training. Change data
 
 ## Test Model on Input Images
 Run experiment_images.py e.g. %run experiment_images.py --dataset='MNISTFashion' --batch_size=8 on google colab. 
-Batch size refers to the number of image inptus.
+Batch size refers to the number of image inputs.
